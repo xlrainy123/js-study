@@ -1,38 +1,38 @@
 import React, {Component} from "react"
 import Table from "./Table"
 import TableWithProps from "./TableWithProps"
+import Form from "./Form"
 
 class App extends Component{
+    state = {
+        persons:[],
+    }
+    removePerson = index => {
+        const {persons} = this.state;
+
+        this.setState({
+            persons: persons.filter((person, i)=>{
+                return i !== index;
+            }),     // here可以加一个逗号
+        })
+        console.log(persons)
+    }
+
+    handleSubmit = person =>{
+        this.setState({
+            persons:[... this.state.persons, person]
+        });
+    }
     render() {
-        // const name = "zhangsy";
-        // return(
-        //     <div className="container">
-        //         <h1>Hello, {name}</h1>
-        //         <Table />
-        //     </div>
-        // )
         /**
          * 使用props来操作数据
          */
-        const persons = [
-            {
-                "name":"张三",
-                "job":"快递员"
-            },
-            {
-                "name":"李四",
-                "job":"教授"
-            },
-            {
-                "name":"张苏豫",
-                "job":"程序员"
-            }
-        ];
         const team = "hello world"
         return (
             <div className="container">
                 <h1>Hello World</h1>
-                <TableWithProps personInfo={persons} say={team}/>
+                <TableWithProps remove={this.removePerson} personInfo={this.state.persons} say={team}/>
+                <Form handleSubmit={this.handleSubmit}/>
             </div>
         )
     }
